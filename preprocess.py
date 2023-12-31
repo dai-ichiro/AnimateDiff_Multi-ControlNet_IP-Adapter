@@ -6,19 +6,32 @@ from argparse import ArgumentParser
 
 def controlnet_preprocess(video_file, processor_type):
 
-    processor = Processor(processor_type)
-    
-    cap = cv2.VideoCapture(video_file)
+    if processor_type == "tile":
+        cap = cv2.VideoCapture(video_file)
 
-    post_images = []
-    while True:
-        ret, img = cap.read()
-        if not ret:
-            break
-        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-        img = Image.fromarray(img)
-        result = processor(img, to_pil=True)
-        post_images.append(result)
+        post_images = []
+        while True:
+            ret, img = cap.read()
+            if not ret:
+                break
+            img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+            img = Image.fromarray(img)
+            post_images.append(img)
+
+    else:
+        processor = Processor(processor_type)
+        
+        cap = cv2.VideoCapture(video_file)
+
+        post_images = []
+        while True:
+            ret, img = cap.read()
+            if not ret:
+                break
+            img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+            img = Image.fromarray(img)
+            result = processor(img, to_pil=True)
+            post_images.append(result)
     
     return post_images
 
