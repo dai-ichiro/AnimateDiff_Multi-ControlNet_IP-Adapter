@@ -1,5 +1,5 @@
 import torch
-from diffusers import DiffusionPipeline, AutoencoderKL, ControlNetModel, MotionAdapter
+from diffusers import DiffusionPipeline, ControlNetModel, MotionAdapter
 from diffusers.pipelines.controlnet.multicontrolnet import MultiControlNetModel
 from PIL import Image
 import os
@@ -55,26 +55,41 @@ controlimage = [x[0:n_frames] for x in controlimage]
 
 controlnet_conditioning_scale = [x["conditioning_scale"] for x in controlnet_list]
 
-if config_dict["vae"]["single_file"]:
-    vae = AutoencoderKL.from_single_file(
-        config_dict["vae"]["model_path"],
-        torch_dtype=torch.float16
-    )
-else:
-    vae = AutoencoderKL.from_pretrained(
-        config_dict["vae"]["model_path"],
-        torch_dtype=torch.float16
-    )
+if config_dict["vae"]["enable"]:
+    from diffusers import AutoencoderKL
+    if config_dict["vae"]["single_file"]:
+        vae = AutoencoderKL.from_single_file(
+            config_dict["vae"]["model_path"],
+            torch_dtype=torch.float16
+        )
+    else:
+        vae = AutoencoderKL.from_pretrained(
+            config_dict["vae"]["model_path"],
+            torch_dtype=torch.float16
+        )
 
 model_id = config_dict["pretrained_model_path"]
 pipe = DiffusionPipeline.from_pretrained(
     model_id,
     motion_adapter=adapter,
     controlnet=controlnet,
-    vae=vae,
     custom_pipeline="custom-pipeline/pipeline_animatediff_controlnet.py",
     torch_dtype=torch.float16
-).to("cuda")
+)
+
+if config_dict["vae"]["enable"]:
+    if config_dict["vae"]["single_file"]:
+        pipe.vae = AutoencoderKL.from_single_file(
+            config_dict["vae"]["model_path"],
+            torch_dtype=torch.float16
+        )
+    else:
+        pipe.vae = AutoencoderKL.from_pretrained(
+            config_dict["vae"]["model_path"],
+            torch_dtype=torch.float16
+        )
+
+pipe.to("cuda")
 
 use_ipadapter = config_dict["ip_adapter"]["enable"]
 if use_ipadapter:
@@ -103,6 +118,14 @@ else:
     )
 
 pipe.enable_vae_slicing()
+
+if config_dict["freeu"]["enable"]:
+    pipe.enable_freeu(
+        s1=config_dict["freeu"]["s1"],
+        s2=config_dict["freeu"]["s2"],
+        b1=config_dict["freeu"]["b1"],
+        b2=config_dict["freeu"]["b2"]
+    )
 
 prompt = config_dict["prompt"]
 negative_prompt = config_dict["negative_prompt"]

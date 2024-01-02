@@ -1,5 +1,7 @@
-pretrained_model_path: "model/yabalMixTrue25Dv5_ema"
+pretrained_model_path: "model/toonyou_beta6"
+
 vae: 
+  enable: False
   single_file: True 
   model_path: "vae/vae-ft-mse-840000-ema-pruned.safetensors"
 
@@ -24,7 +26,7 @@ height: 768
 clip_skip: None
 
 ip_adapter:
-  enable: True
+  enable: False
   folder: "IP-Adapter"
   subfolder: "models"
   weight_name: "ip-adapter-plus-face_sd15.safetensors"
@@ -35,3 +37,10 @@ lcm_lora:
   enable: False
   model_path: "lora/lcm-lora-sdv1-5"
   weight: 1.0
+
+freeu:
+  enable: True
+  s1: 0.9
+  s2: 0.2
+  b1: 1.1
+  b2: 1.2
