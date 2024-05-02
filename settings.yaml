@@ -1,32 +1,32 @@
-pretrained_model_path: "model/toonyou_beta6"
+pretrained_model_path: "model/yabalMixTrue25D_v5"
 
 vae: 
-  enable: False
+  enable: True
   single_file: True 
   model_path: "vae/vae-ft-mse-840000-ema-pruned.safetensors"
 
-motion_module_path: "animatediff-motion-adapter-v1-5-2"
+motion_module_path: "animatediff/animatediff-motion-adapter-v1-5-2"
 
-controlnet:
+controlnet_list:
   - model_path: "controlnet/control_v11p_sd15_openpose"
     image_path: "controlnet-image/openpose.gif"
-    conditioning_scale: 0.5
+    conditioning_scale: 0.50
   - model_path: "controlnet/control_v11f1e_sd15_tile"
     image_path: "controlnet-image/tile.gif"
-    conditioning_scale: 0.4
+    conditioning_scale: 0.30
 
 prompt: "a girl, walking, anime style, best quality, extremely detailed"
 negative_prompt: "longbody, lowres, bad anatomy, bad hands, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality"
 
 seed: 222
-steps: 30
+steps: 5
 guidance_scale: 7.5
 width: 512
 height: 768
 clip_skip: None
 
 ip_adapter:
-  enable: False
+  enable: True
   folder: "IP-Adapter"
   subfolder: "models"
   weight_name: "ip-adapter-plus-face_sd15.safetensors"
@@ -34,8 +34,8 @@ ip_adapter:
   scale: 0.6
 
 lcm_lora:
-  enable: False
-  model_path: "lora/lcm-lora-sdv1-5"
+  enable: True
+  model_path: "lcm-lora-sdv1-5"
   weight: 1.0
 
 freeu:
