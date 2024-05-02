@@ -1,3 +1,13 @@
+## Environment
+~~~
+Windows 11
+CUDA 11.8
+Python 3.12
+~~~
+## Install
+~~~
+pip install -r requirements.txt
+~~~
 ## Video
 "walk.mp4" was downloaded from [here](https://pixabay.com/ja/videos/%E5%A5%B3%E6%80%A7-%E3%83%A2%E3%83%87%E3%83%AB-%E6%A9%8B%E8%84%9A-%E6%B5%B7-85303/)
 
