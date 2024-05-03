@@ -4,7 +4,7 @@ Windows 11
 CUDA 11.8
 Python 3.12
 ~~~
-## Install
+## Installation
 ~~~
 pip install -r requirements.txt
 ~~~
