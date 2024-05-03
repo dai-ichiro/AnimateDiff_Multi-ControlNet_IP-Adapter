@@ -24,4 +24,4 @@ python run.py --config settings.yaml
 ~~~
 
 ## Link to my blog
-[https://touch-sp.hatenablog.com/entry/2023/12/13/183401](https://touch-sp.hatenablog.com/entry/2024/05/02/122404)
+[https://touch-sp.hatenablog.com/entry/2024/05/02/122404](https://touch-sp.hatenablog.com/entry/2024/05/02/122404)
